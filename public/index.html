@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starlink Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">📡</span>
+                    <span class="logo-text">Starlink Admin</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="apk">
+                    <span class="nav-icon">📱</span>
+                    <span class="nav-text">Gerenciar APK</span>
+                </a>
+                <a href="#" class="nav-item" data-page="users">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Usuários</span>
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Configurações</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="server-status">
+                    <span class="status-dot online"></span>
+                    <span class="status-text">Servidor Online</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <span class="user-name">Administrador</span>
+                        <span class="user-avatar">👤</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- Dashboard Page -->
+                <div class="page active" id="page-dashboard">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <h3 class="stat-value" id="totalUsers">0</h3>
+                                <p class="stat-label">Usuários Cadastrados</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📱</div>
+                            <div class="stat-info">
+                                <h3 class="stat-value" id="apkStatus">--</h3>
+                                <p class="stat-label">Status do APK</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-info">
+                                <h3 class="stat-value" id="serverUptime">0m</h3>
+                                <p class="stat-label">Tempo Online</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💾</div>
+                            <div class="stat-info">
+                                <h3 class="stat-value" id="dbSize">0 KB</h3>
+                                <p class="stat-label">Tamanho do Banco</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <h2>Atividade Recente</h2>
+                        <div class="activity-list" id="activityList">
+                            <!-- Atividades serão carregadas aqui -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- APK Management Page -->
+                <div class="page" id="page-apk">
+                    <div class="apk-section">
+                        <div class="apk-info">
+                            <h2>Informações do APK</h2>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">URL Atual:</span>
+                                    <span class="info-value" id="currentApkUrl">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Status:</span>
+                                    <span class="info-value status-badge" id="apkStatusBadge">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Última Atualização:</span>
+                                    <span class="info-value" id="lastUpdate">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="apk-upload">
+                            <h2>Upload Novo APK</h2>
+                            <div class="upload-area" id="uploadArea">
+                                <div class="upload-content">
+                                    <span class="upload-icon">📤</span>
+                                    <p class="upload-text">Arraste e solte o APK aqui ou clique para selecionar</p>
+                                    <input type="file" id="apkFile" accept=".apk" hidden>
+                                    <button class="btn btn-primary" id="selectFileBtn">Selecionar Arquivo</button>
+                                </div>
+                            </div>
+                            <div class="upload-progress" id="uploadProgress" style="display: none;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <p class="progress-text" id="progressText">Enviando...</p>
+                            </div>
+                            <div class="upload-result" id="uploadResult" style="display: none;">
+                                <div class="result-success">
+                                    <span class="result-icon">✓</span>
+                                    <p>APK atualizado com sucesso!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Page -->
+                <div class="page" id="page-users">
+                    <div class="users-section">
+                        <div class="users-header">
+                            <h2>Usuários Cadastrados</h2>
+                            <div class="users-actions">
+                                <input type="text" class="search-input" id="searchUsers" placeholder="Buscar usuário...">
+                                <button class="btn btn-secondary" id="refreshUsers">🔄 Atualizar</button>
+                            </div>
+                        </div>
+                        <div class="users-table-container">
+                            <table class="users-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>CPF</th>
+                                        <th>Telefone</th>
+                                        <th>Data Cadastro</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Usuários serão carregados aqui -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div class="page" id="page-settings">
+                    <div class="settings-section">
+                        <h2>Configurações do Servidor</h2>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label class="setting-label">Porta do Servidor</label>
+                                <input type="number" class="setting-input" id="serverPort" value="3000">
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-label">URL Base</label>
+                                <input type="text" class="setting-input" id="baseUrl" value="http://localhost:3000">
+                            </div>
+                            <div class="setting-item">
+                                <label class="setting-label">Pasta de Uploads</label>
+                                <input type="text" class="setting-input" id="uploadPath" value="./uploads">
+                            </div>
+                        </div>
+                        <div class="settings-actions">
+                            <button class="btn btn-primary" id="saveSettings">💾 Salvar Configurações</button>
+                            <button class="btn btn-danger" id="resetSettings">🔄 Resetar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
